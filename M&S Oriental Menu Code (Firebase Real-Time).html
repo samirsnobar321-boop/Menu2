@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M&S | المطبخ الشرقي الأصيل - القائمة التفاعلية</title>
+    
+    <!-- Google Fonts: Cairo & Amiri for Luxury Oriental Feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        serif: ['Amiri', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            400: '#E5B85C',
+                            500: '#D49A35',
+                            600: '#B57D1E',
+                        },
+                        charcoal: {
+                            800: '#1E1B18',
+                            900: '#141210',
+                            950: '#0C0A09',
+                        },
+                        sand: {
+                            50: '#FAF7F2',
+                            100: '#F3ECE1',
+                            200: '#E5D8C5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar & Smooth Animations */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(212, 154, 53, 0.4);
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 154, 53, 0.8);
+        }
+
+        /* Luxury Splash Screen Keyframes */
+        @keyframes spinSlow {
+            0% { transform: rotate(0deg) scale(0.95); }
+            50% { transform: rotate(180deg) scale(1.05); }
+            100% { transform: rotate(360deg) scale(0.95); }
+        }
+        @keyframes shimmerGold {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(25px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes progressLine {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* Smooth Category Transition Keyframes */
+        @keyframes cardReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(16px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .animate-spin-slow {
+            animation: spinSlow 14s linear infinite;
+        }
+        .gold-shimmer-text {
+            background: linear-gradient(90deg, #D49A35 0%, #FFF3D1 50%, #D49A35 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerGold 3s linear infinite;
+        }
+        .animate-float-up {
+            animation: floatUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-progress {
+            animation: progressLine 2.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+
+        /* Bento Card Hover Depth & Smooth Entrance */
+        .bento-card {
+            opacity: 0;
+            animation: cardReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Smooth Container Fade */
+        #menuBentoGrid {
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+        #menuBentoGrid.grid-switching {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        /* Hide horizontal scrollbar on filter tabs */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-sand-50 text-charcoal-900 dark:bg-charcoal-950 dark:text-sand-50 font-sans antialiased transition-colors duration-300 selection:bg-gold-500 selection:text-white overflow-x-hidden">
+
+    <!-- ==================== 1. LUXURY SPLASH SCREEN ANIMATION ==================== -->
+    <div id="splashScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-charcoal-950 text-sand-50 transition-all duration-1000 ease-in-out">
+        <!-- Decorative Oriental Geometric Pattern Background -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center overflow-hidden">
+            <svg class="w-[650px] h-[650px] animate-spin-slow text-gold-500" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.6">
+                <rect x="35" y="35" width="130" height="130" />
+                <rect x="35" y="35" width="130" height="130" transform="rotate(45 100 100)" />
+                <circle cx="100" cy="100" r="85" />
+                <circle cx="100" cy="100" r="60" stroke-dasharray="4 4" />
+                <polygon points="100,10 125,75 190,100 125,125 100,190 75,125 10,100 75,75" />
+            </svg>
+        </div>
+
+        <!-- Center Emblem -->
+        <div class="relative z-10 flex flex-col items-center text-center px-6">
+            <div class="w-28 h-28 mb-6 rounded-3xl border-2 border-gold-500/60 bg-charcoal-900/90 backdrop-blur-md flex items-center justify-center shadow-[0_0_50px_rgba(212,154,53,0.25)] animate-float-up">
+                <span class="font-serif text-5xl font-bold tracking-wider gold-shimmer-text">M&S</span>
+            </div>
+            
+            <p class="text-gold-400 text-sm tracking-[0.25em] uppercase mb-2 opacity-0 animate-float-up" style="animation-delay: 0.25s;">
+                أصالة الضيافة الشرقية
+            </p>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-3 opacity-0 animate-float-up" style="animation-delay: 0.45s;">
+                مطعم <span class="text-gold-500">M&S</span> للمأكولات الشرقية
+            </h1>
+            <p class="text-sand-200/70 text-sm sm:text-base max-w-md mb-8 opacity-0 animate-float-up" style="animation-delay: 0.65s;">
+                نكهات دمشقية وحلبية عريقة تُقدّم بأسلوب عصري يليق بذائقتكم
+            </p>
+
+            <!-- Golden Progress Bar -->
+            <div class="w-56 h-1 bg-charcoal-800 rounded-full overflow-hidden mb-5">
+                <div class="h-full bg-gradient-to-l from-gold-400 to-gold-600 animate-progress"></div>
+            </div>
+
+            <button onclick="enterMenuImmediately()" class="text-xs text-sand-200/60 hover:text-gold-400 transition underline underline-offset-4 cursor-pointer">
+                دخول مباشر للقائمة
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== 2. TOAST NOTIFICATION BANNER ==================== -->
+    <div id="toastContainer" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-[90%] max-w-sm"></div>
+
+    <!-- ==================== 3. STICKY HEADER BAR ==================== -->
+    <header class="sticky top-0 z-30 backdrop-blur-xl bg-sand-50/85 dark:bg-charcoal-950/85 border-b border-charcoal-900/10 dark:border-sand-100/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3">
+            
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-600 text-charcoal-950 flex items-center justify-center font-serif text-2xl font-bold shadow-lg shadow-gold-500/20">
+                    M&S
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="font-extrabold text-lg sm:text-xl leading-none">مطعم M&S</h2>
+                        <span id="syncStatusBadge" class="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> متصل مباشر
+                        </span>
+                    </div>
+                    <p class="text-xs text-charcoal-800/60 dark:text-sand-200/60 mt-1">مأكولات شرقية ومشاوي فاخرة</p>
+                </div>
+            </div>
+
+            <!-- Action Controls (Theme, Admin Lock, Cart) -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                
+                <!-- Dark / Light Mode Toggle -->
+                <button onclick="toggleTheme()" id="themeToggleBtn" aria-label="تبديل المظهر" class="p-3 rounded-2xl bg-sand-100 dark:bg-charcoal-800 hover:bg-gold-500/20 border border-charcoal-900/10 dark:border-sand-100/10 transition">
+                    <svg id="sunIcon" class="w-5 h-5 hidden dark:block text-gold-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    <svg id="moonIcon" class="w-5 h-5 block dark:hidden text-charcoal-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
+
+                <!-- Admin Lock Button -->
+                <button onclick="openAdminLockModal()" title="لوحة الإدارة" class="p-3 rounded-2xl bg-sand-100 dark:bg-charcoal-800 hover:bg-gold-500 hover:text-charcoal-950 border border-charcoal-900/10 dark:border-sand-100/10 transition group">
+                    <svg class="w-5 h-5 text-charcoal-800 dark:text-gold-400 group-hover:text-charcoal-950 transition" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="3" ry="3"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </button>
+
+                <!-- Cart Trigger Button -->
+                <button onclick="toggleCartDrawer(true)" class="relative flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-charcoal-900 dark:bg-gold-500 text-sand-50 dark:text-charcoal-950 font-bold text-sm shadow-lg hover:scale-[1.02] active:scale-95 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                    </svg>
+                    <span class="hidden sm:inline">سلتي</span>
+                    <span id="cartBadge" class="px-2 py-0.5 text-xs font-extrabold rounded-full bg-gold-500 dark:bg-charcoal-950 text-charcoal-950 dark:text-gold-400">
+                        0
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== 4. MAIN BENTO CONTENT ==================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-28">
+
+        <!-- Top Bento Hero Banner & Quick Highlights -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-8">
+            <!-- Main Featured Bento Box (8 cols) -->
+            <div class="lg:col-span-8 relative rounded-3xl overflow-hidden bg-charcoal-900 text-sand-50 p-6 sm:p-8 flex flex-col justify-between min-h-[230px] border-2 border-charcoal-900/10 dark:border-gold-500/20 shadow-xl">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=80" 
+                     onerror="this.src='https://placehold.co/1200x500/1E1B18/D49A35?text=M%26S+Oriental+Grill'"
+                     alt="مشاوي مشكلة M&S" 
+                     class="absolute inset-0 w-full h-full object-cover opacity-35 mix-blend-luminosity">
+                <div class="absolute inset-0 bg-gradient-to-l from-charcoal-950 via-charcoal-950/80 to-transparent"></div>
+                
+                <div class="relative z-10 max-w-lg">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/20 border border-gold-500/40 text-gold-400 text-xs font-bold mb-3">
+                        ✨ توصية الشيف اليوم
+                    </span>
+                    <h1 class="text-2xl sm:text-4xl font-black leading-tight mb-2">
+                        وليمة مشاوي <span class="text-gold-400">M&S</span> الملكية
+                    </h1>
+                    <p class="text-sand-200/80 text-sm sm:text-base leading-relaxed">
+                        تشكيلة فاخرة من الكباب الحلبي، الشيش طاووق المتبل، وأوصال اللحم المشوية على الفحم مع المقبلات الدمشقية.
+                    </p>
+                </div>
+
+                <div class="relative z-10 flex flex-wrap items-center gap-3 mt-5">
+                    <button onclick="quickAddHeroDish()" class="px-5 py-2.5 rounded-2xl bg-gold-500 hover:bg-gold-400 text-charcoal-950 font-extrabold text-sm transition shadow-lg shadow-gold-500/20 flex items-center gap-2">
+                        <span>أضف الوليمة للسلة</span>
+                        <span id="heroDishPriceTag" class="bg-charcoal-950/15 px-2 py-0.5 rounded-lg text-xs">18.00 $</span>
+                    </button>
+                    <span class="text-xs text-sand-200/70">🔥 تُحضّر طازجة عند الطلب</span>
+                </div>
+            </div>
+
+            <!-- Side Bento Info Cards (4 cols stacked) -->
+            <div class="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-4">
+                <!-- Card 1: Chef's Secret / Hospitality -->
+                <div class="rounded-3xl p-5 bg-amber-500/10 dark:bg-charcoal-800/90 border-2 border-amber-600/20 dark:border-sand-100/10 flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl">🥙</span>
+                        <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300">خبز تنور طازج</span>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-extrabold text-base sm:text-lg">ضيافة M&S المجانية</h3>
+                        <p class="text-xs text-charcoal-800/70 dark:text-sand-200/70 mt-1">تُقدّم جميع الطلبات مع خبز التنور الساخن ومخللاتنا البيتية.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Fast WhatsApp Ordering -->
+                <div class="rounded-3xl p-5 bg-emerald-500/10 dark:bg-charcoal-800/90 border-2 border-emerald-600/20 dark:border-sand-100/10 flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl">⚡</span>
+                        <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-800 dark:text-emerald-300">طلب مباشر</span>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-extrabold text-base sm:text-lg">اطلب لطاولتك أو للبيت</h3>
+                        <p class="text-xs text-charcoal-800/70 dark:text-sand-200/70 mt-1">اختر أطباقك وأرسل الفاتورة بضغطة زر عبر واتساب.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search & Category Filter Bar -->
+        <section class="mb-7 space-y-4">
+            <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+                <!-- Category Tabs -->
+                <div id="categoryTabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                    <!-- Injected via JS -->
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full md:w-72 shrink-0">
+                    <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="ابحث عن طبق (كباب، حمص، كبة...)" 
+                           class="w-full pl-4 pr-10 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border-2 border-charcoal-900/10 dark:border-sand-100/10 focus:border-gold-500 focus:outline-none text-sm font-medium transition">
+                    <svg class="w-4 h-4 text-charcoal-800/40 dark:text-sand-200/40 absolute right-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== BENTO GRID MENU ITEMS ==================== -->
+        <section id="menuBentoGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 auto-rows-auto">
+            <!-- Bento Cards rendered dynamically by JavaScript -->
+        </section>
+
+        <!-- Empty Search State -->
+        <div id="emptyState" class="hidden text-center py-16 px-4 rounded-3xl bg-white dark:bg-charcoal-800/50 border-2 border-dashed border-charcoal-900/10 dark:border-sand-100/10 mt-6">
+            <div class="text-4xl mb-3">🍽️</div>
+            <h3 class="text-lg font-extrabold">لم نجد أطباقاً مطابقة لبحثك</h3>
+            <p class="text-sm text-charcoal-800/60 dark:text-sand-200/60 mt-1 mb-4">جرب البحث بكلمة أخرى أو استعرض جميع الأقسام</p>
+            <button onclick="resetFilters()" class="px-5 py-2.5 rounded-2xl bg-gold-500 text-charcoal-950 font-bold text-sm">عرض كل القائمة</button>
+        </div>
+
+    </main>
+
+    <!-- ==================== 5. FLOATING MOBILE CART BAR ==================== -->
+    <div id="floatingCartBar" class="fixed bottom-4 inset-x-4 z-30 sm:hidden transition-transform duration-300 translate-y-28">
+        <button onclick="toggleCartDrawer(true)" class="w-full py-3.5 px-5 rounded-2xl bg-charcoal-900 dark:bg-gold-500 text-sand-50 dark:text-charcoal-950 shadow-2xl flex items-center justify-between font-extrabold">
+            <div class="flex items-center gap-2.5">
+                <span id="mobileCartCount" class="w-7 h-7 rounded-xl bg-gold-500 dark:bg-charcoal-950 text-charcoal-950 dark:text-gold-400 flex items-center justify-center text-xs font-black">0</span>
+                <span class="text-sm">عرض سلة الطلبات</span>
+            </div>
+            <span id="mobileCartTotal" class="text-sm font-black">0.00 $</span>
+        </button>
+    </div>
+
+    <!-- ==================== 6. DISH CUSTOMIZATION MODAL ==================== -->
+    <div id="dishDetailModal" class="fixed inset-0 z-40 hidden items-center justify-center p-4 bg-charcoal-950/75 backdrop-blur-sm">
+        <div class="bg-sand-50 dark:bg-charcoal-900 border-2 border-charcoal-900/10 dark:border-sand-100/15 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl animate-float-up">
+            <div class="relative h-52">
+                <img id="modalDishImg" src="" alt="" class="w-full h-full object-cover">
+                <button onclick="closeDishModal()" class="absolute top-3 left-3 w-9 h-9 rounded-full bg-charcoal-950/70 text-white flex items-center justify-center hover:bg-charcoal-950 transition">✕</button>
+                <span id="modalDishCategory" class="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-charcoal-950/80 text-gold-400 text-xs font-bold backdrop-blur-md"></span>
+            </div>
+            <div class="p-6">
+                <div class="flex items-start justify-between gap-2 mb-2">
+                    <h3 id="modalDishName" class="text-xl font-black"></h3>
+                    <span id="modalDishPrice" class="text-lg font-black text-gold-600 dark:text-gold-400 shrink-0"></span>
+                </div>
+                <p id="modalDishDesc" class="text-sm text-charcoal-800/75 dark:text-sand-200/75 leading-relaxed mb-5"></p>
+
+                <!-- Quick Oriental Customizations -->
+                <div class="mb-5">
+                    <label class="block text-xs font-extrabold mb-2 text-charcoal-800/80 dark:text-sand-200/80">إضافات وملاحظات سريعة للطبق:</label>
+                    <div id="quickNotesChips" class="flex flex-wrap gap-2 mb-3">
+                        <button type="button" onclick="toggleQuickNote(this, 'دبس رمان إضافي')" class="note-chip px-3 py-1.5 rounded-xl text-xs font-bold border border-charcoal-900/15 dark:border-sand-100/15 hover:border-gold-500 transition">+ دبس رمان إضافي</button>
+                        <button type="button" onclick="toggleQuickNote(this, 'بدون بصل')" class="note-chip px-3 py-1.5 rounded-xl text-xs font-bold border border-charcoal-900/15 dark:border-sand-100/15 hover:border-gold-500 transition">بدون بصل</button>
+                        <button type="button" onclick="toggleQuickNote(this, 'سبايسي / حار')" class="note-chip px-3 py-1.5 rounded-xl text-xs font-bold border border-charcoal-900/15 dark:border-sand-100/15 hover:border-gold-500 transition">🌶️ حار</button>
+                        <button type="button" onclick="toggleQuickNote(this, 'خبز محمص زيادة')" class="note-chip px-3 py-1.5 rounded-xl text-xs font-bold border border-charcoal-900/15 dark:border-sand-100/15 hover:border-gold-500 transition">+ خبز محمص</button>
+                    </div>
+                    <input type="text" id="customDishNoteInput" placeholder="أو اكتب ملاحظة خاصة للشيف..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-xs focus:border-gold-500 focus:outline-none">
+                </div>
+
+                <button id="confirmAddModalBtn" class="w-full py-3.5 rounded-2xl bg-gold-500 hover:bg-gold-400 text-charcoal-950 font-black text-sm shadow-lg shadow-gold-500/20 transition">
+                    إضافة إلى السلة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 7. SLIDE-OVER SHOPPING CART DRAWER ==================== -->
+    <div id="cartOverlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 z-40 bg-charcoal-950/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="cartDrawer" class="fixed top-0 left-0 z-50 h-full w-full max-w-md bg-sand-50 dark:bg-charcoal-900 border-r border-charcoal-900/10 dark:border-sand-100/10 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        
+        <!-- Cart Header -->
+        <div class="p-5 border-b border-charcoal-900/10 dark:border-sand-100/10 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <span class="w-10 h-10 rounded-2xl bg-gold-500/15 text-gold-600 dark:text-gold-400 flex items-center justify-center font-bold">🛍️</span>
+                <div>
+                    <h3 class="font-black text-lg">سلة طلباتك</h3>
+                    <p class="text-xs text-charcoal-800/60 dark:text-sand-200/60">يمكنك تعديل الكمية أو حذف أي صنف</p>
+                </div>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="w-10 h-10 rounded-2xl bg-sand-100 dark:bg-charcoal-800 hover:bg-red-500/15 hover:text-red-500 flex items-center justify-center font-bold transition">✕</button>
+        </div>
+
+        <!-- Cart Items List (Individual Delete Enabled) -->
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-3">
+            <!-- Injected via JS -->
+        </div>
+
+        <!-- Cart Checkout & WhatsApp Footer -->
+        <div id="cartFooter" class="p-5 border-t border-charcoal-900/10 dark:border-sand-100/10 bg-white/80 dark:bg-charcoal-950/80 space-y-3">
+            
+            <!-- Order Type Toggle (Table vs Delivery) -->
+            <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-sand-100 dark:bg-charcoal-800">
+                <button type="button" id="orderTypeTableBtn" onclick="setOrderType('table')" class="py-2 rounded-xl text-xs font-extrabold bg-white dark:bg-charcoal-900 shadow-sm transition">داخل المطعم (طاولة)</button>
+                <button type="button" id="orderTypeDeliveryBtn" onclick="setOrderType('delivery')" class="py-2 rounded-xl text-xs font-extrabold text-charcoal-800/60 dark:text-sand-200/60 transition">توصيل / سفري</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <input type="text" id="customerNameInput" placeholder="الاسم الكريم" class="px-3.5 py-2.5 rounded-xl bg-sand-50 dark:bg-charcoal-800 border border-charcoal-900/10 dark:border-sand-100/10 text-xs focus:border-gold-500 focus:outline-none">
+                <input type="text" id="tableOrAddressInput" placeholder="رقم الطاولة (مثلاً: 5)" class="px-3.5 py-2.5 rounded-xl bg-sand-50 dark:bg-charcoal-800 border border-charcoal-900/10 dark:border-sand-100/10 text-xs focus:border-gold-500 focus:outline-none">
+            </div>
+
+            <!-- Totals -->
+            <div class="flex items-center justify-between pt-2">
+                <span class="text-sm font-bold text-charcoal-800/70 dark:text-sand-200/70">المجموع الإجمالي:</span>
+                <span id="cartTotalPrice" class="text-2xl font-black text-gold-600 dark:text-gold-400">0.00 $</span>
+            </div>
+
+            <!-- WhatsApp Send Button -->
+            <button onclick="sendOrderToWhatsApp()" class="w-full py-3.5 px-5 rounded-2xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-black text-sm shadow-lg shadow-[#25D366]/25 flex items-center justify-center gap-2.5 transition active:scale-[0.99]">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                </svg>
+                <span>إرسال الطلب عبر واتساب</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ==================== 8. ADMIN PASSWORD LOCK MODAL (PIN: 1234) ==================== -->
+    <div id="adminLockModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-charcoal-950/80 backdrop-blur-md">
+        <div class="bg-sand-50 dark:bg-charcoal-900 border-2 border-gold-500/30 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl animate-float-up">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gold-500/15 text-gold-600 dark:text-gold-400 flex items-center justify-center">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <rect x="3" y="11" width="18" height="11" rx="3" ry="3"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-black mb-1">دخول الإدارة - M&S</h3>
+            <p class="text-xs text-charcoal-800/60 dark:text-sand-200/60 mb-5">أدخل رمز المرور المكون من 4 أرقام للمتابعة</p>
+            
+            <form onsubmit="verifyAdminPin(event)" class="space-y-4">
+                <input type="password" id="adminPinInput" maxlength="4" inputmode="numeric" placeholder="••••" 
+                       class="w-full text-center tracking-[0.75em] text-2xl font-black py-3.5 rounded-2xl bg-white dark:bg-charcoal-800 border-2 border-charcoal-900/15 dark:border-sand-100/15 focus:border-gold-500 focus:outline-none">
+                <p id="pinErrorMsg" class="text-xs font-bold text-red-500 hidden">كلمة المرور غير صحيحة! حاول مرة أخرى.</p>
+                <div class="flex gap-2">
+                    <button type="button" onclick="closeAdminLockModal()" class="flex-1 py-3 rounded-2xl bg-sand-200/70 dark:bg-charcoal-800 font-bold text-sm">إلغاء</button>
+                    <button type="submit" class="flex-1 py-3 rounded-2xl bg-gold-500 hover:bg-gold-400 text-charcoal-950 font-black text-sm">فتح القفل</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== 9. ADMIN DASHBOARD MODAL (ADD & EDIT - REALTIME FIREBASE) ==================== -->
+    <div id="adminDashboardModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-charcoal-950/85 backdrop-blur-md overflow-y-auto">
+        <div class="bg-sand-50 dark:bg-charcoal-900 border-2 border-charcoal-900/10 dark:border-sand-100/15 rounded-3xl max-w-2xl w-full my-auto overflow-hidden shadow-2xl">
+            
+            <!-- Dashboard Header -->
+            <div class="p-5 sm:p-6 bg-charcoal-900 text-sand-50 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="w-10 h-10 rounded-xl bg-gold-500 text-charcoal-950 flex items-center justify-center font-black">⚙️</span>
+                    <div>
+                        <h3 class="font-black text-lg">لوحة إدارة قائمة M&S (مزامنة سحابية)</h3>
+                        <p class="text-xs text-sand-200/60">أي تعديل يظهر فوراً عند جميع الزبائن</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminDashboard()" class="w-10 h-10 rounded-xl bg-charcoal-800 hover:bg-red-500/20 hover:text-red-400 flex items-center justify-center font-bold transition">✕</button>
+            </div>
+
+            <!-- Two Required Sections Tabs -->
+            <div class="p-4 bg-sand-100 dark:bg-charcoal-800/70 border-b border-charcoal-900/10 dark:border-sand-100/10 flex gap-2">
+                <button id="tabAddProductBtn" onclick="switchAdminTab('add')" class="flex-1 py-3 px-4 rounded-2xl font-extrabold text-sm bg-gold-500 text-charcoal-950 shadow-md transition">
+                    ➕ إضافة منتج جديد
+                </button>
+                <button id="tabEditProductBtn" onclick="switchAdminTab('edit')" class="flex-1 py-3 px-4 rounded-2xl font-extrabold text-sm bg-white dark:bg-charcoal-800 text-charcoal-800 dark:text-sand-200 transition">
+                    ✏️ تعديل منتج موجود
+                </button>
+            </div>
+
+            <!-- SECTION 1: ADD NEW PRODUCT -->
+            <form id="addProductSection" onsubmit="handleAddNewDish(event)" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-extrabold mb-1.5">اسم الطبق *</label>
+                        <input type="text" id="newDishName" required placeholder="مثال: كباب حلبي بالكرز" class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-extrabold mb-1.5">القسم *</label>
+                        <select id="newDishCategory" class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none">
+                            <option value="مشاوي مشكلة">مشاوي مشكلة</option>
+                            <option value="أطباق شرقية">أطباق شرقية</option>
+                            <option value="مقبلات">مقبلات</option>
+                            <option value="حلويات ومشروبات">حلويات ومشروبات</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-extrabold mb-1.5">السعر ($) *</label>
+                        <input type="number" step="0.5" min="0.5" id="newDishPrice" required placeholder="12.50" class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-extrabold mb-1.5">شارة مميزة (اختياري)</label>
+                        <select id="newDishBadge" class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none">
+                            <option value="">بدون شارة</option>
+                            <option value="الأكثر طلباً 🔥">الأكثر طلباً 🔥</option>
+                            <option value="جديد ✨">جديد ✨</option>
+                            <option value="توصية الشيف 👨‍🍳">توصية الشيف 👨‍🍳</option>
+                            <option value="نباتي 🌿">نباتي 🌿</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-extrabold mb-1.5">رابط الصورة أو اختر صورة من جهازك</label>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="newDishImageUrl" placeholder="https://..." class="flex-1 px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none">
+                        <label class="px-4 py-3 rounded-2xl bg-sand-200/70 dark:bg-charcoal-800 hover:bg-gold-500/20 text-xs font-extrabold cursor-pointer flex items-center justify-center gap-1.5 shrink-0">
+                            <span>📁 رفع صورة</span>
+                            <input type="file" accept="image/*" onchange="handleImageUpload(event, 'newDishImageUrl')" class="hidden">
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-extrabold mb-1.5">وصف الطبق ومكوناته *</label>
+                    <textarea id="newDishDesc" rows="2" required placeholder="اكتب وصفاً شهياً يوضح مكونات الطبق وطريقة تحضيره..." class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none"></textarea>
+                </div>
+
+                <div class="pt-2 flex items-center justify-between gap-3">
+                    <label class="flex items-center gap-2 text-xs font-bold cursor-pointer">
+                        <input type="checkbox" id="newDishFeatured" class="w-4 h-4 accent-gold-500 rounded">
+                        <span>عرض كبطاقة بينتو كبيرة (مميزة)</span>
+                    </label>
+                    <button type="submit" id="saveNewDishBtn" class="px-6 py-3.5 rounded-2xl bg-gold-500 hover:bg-gold-400 text-charcoal-950 font-black text-sm shadow-lg transition">
+                        نشر وإضافة للقائمة
+                    </button>
+                </div>
+            </form>
+
+            <!-- SECTION 2: EDIT EXISTING PRODUCT (PRICE, IMAGE, DESCRIPTION) -->
+            <form id="editProductSection" onsubmit="handleUpdateExistingDish(event)" class="p-6 space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-extrabold mb-1.5">اختر الطبق المراد تعديله:</label>
+                    <select id="editDishSelect" onchange="populateEditForm(this.value)" class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border-2 border-gold-500/40 text-sm font-bold focus:outline-none">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-extrabold mb-1.5">تعديل الاسم</label>
+                        <input type="text" id="editDishName" required class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-extrabold mb-1.5">تعديل السعر ($) *</label>
+                        <input type="number" step="0.5" min="0.5" id="editDishPrice" required class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm font-bold text-gold-600 dark:text-gold-400 focus:border-gold-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-extrabold mb-1.5">تعديل الصورة (رابط أو رفع ملف)</label>
+                    <div class="flex items-center gap-3">
+                        <img id="editDishPreviewImg" src="" alt="معاينة" class="w-14 h-14 rounded-2xl object-cover border border-charcoal-900/15 shrink-0">
+                        <div class="flex-1 flex flex-col sm:flex-row gap-2">
+                            <input type="text" id="editDishImageUrl" oninput="document.getElementById('editDishPreviewImg').src=this.value" class="flex-1 px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none">
+                            <label class="px-4 py-3 rounded-2xl bg-sand-200/70 dark:bg-charcoal-800 hover:bg-gold-500/20 text-xs font-extrabold cursor-pointer flex items-center justify-center shrink-0">
+                                <span>📁 تغيير الصورة</span>
+                                <input type="file" accept="image/*" onchange="handleImageUpload(event, 'editDishImageUrl', 'editDishPreviewImg')" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-extrabold mb-1.5">تعديل الوصف *</label>
+                    <textarea id="editDishDesc" rows="2" required class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-sm focus:border-gold-500 focus:outline-none"></textarea>
+                </div>
+
+                <!-- WhatsApp Number Configuration -->
+                <div class="pt-2 border-t border-charcoal-900/10 dark:border-sand-100/10">
+                    <label class="block text-xs font-extrabold mb-1 text-emerald-700 dark:text-emerald-400">رقم واتساب المطعم لاستقبال الطلبات (مع رمز الدولة بدون +):</label>
+                    <input type="text" id="adminWhatsappNumber" placeholder="963900000000" class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-charcoal-800 border border-charcoal-900/15 dark:border-sand-100/15 text-xs focus:border-gold-500 focus:outline-none">
+                </div>
+
+                <div class="pt-2 flex flex-wrap items-center justify-between gap-2">
+                    <button type="button" onclick="deleteSelectedDish()" class="px-4 py-3 rounded-2xl bg-red-500/15 hover:bg-red-500 text-red-600 hover:text-white font-bold text-xs transition">
+                        🗑️ حذف هذا الطبق نهائياً
+                    </button>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="resetDemoMenu()" class="px-4 py-3 rounded-2xl bg-sand-200/70 dark:bg-charcoal-800 text-xs font-bold">استعادة الافتراضي</button>
+                        <button type="submit" id="saveEditDishBtn" class="px-6 py-3 rounded-2xl bg-gold-500 hover:bg-gold-400 text-charcoal-950 font-black text-sm shadow-lg transition">
+                            حفظ وتحديث للجميع
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== FIREBASE SDK & REALTIME APPLICATION LOGIC ==================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            doc, 
+            setDoc, 
+            updateDoc, 
+            deleteDoc, 
+            onSnapshot, 
+            getDocs,
+            writeBatch 
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtAf2Ndrpoxon_McoCaSa01A7k6u_z6VY",
+            authDomain: "menu3-f53e0.firebaseapp.com",
+            projectId: "menu3-f53e0",
+            storageBucket: "menu3-f53e0.firebasestorage.app",
+            messagingSenderId: "984826306234",
+            appId: "1:984826306234:web:305d90b4a8bc5dfec62c83",
+            measurementId: "G-KN68NXS97J"
+        };
+
+        // Initialize Firebase & Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const menuCollectionRef = collection(db, "ms_menu_items");
+        const settingsDocRef = doc(db, "ms_settings", "general");
+
+        // 1. DEFAULT ORIENTAL MENU DATA (Seeded automatically to Firebase if empty)
+        const DEFAULT_MENU_ITEMS = [
+            {
+                id: 'dish-1',
+                name: 'وليمة مشاوي M&S الملكية',
+                category: 'مشاوي مشكلة',
+                price: 18.00,
+                badge: 'الأكثر طلباً 🔥',
+                featured: true,
+                orderIndex: 1,
+                description: 'تشكيلة فاخرة تكفي لشخصين من الكباب الحلبي، الشيش طاووق، وأوصال اللحم المشوية على الفحم مع الطماطم المشوية والبيواز.',
+                image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=80'
+            },
+            {
+                id: 'dish-2',
+                name: 'كباب حلبي بالكرز',
+                category: 'أطباق شرقية',
+                price: 14.50,
+                badge: 'توصية الشيف 👨‍🍳',
+                featured: true,
+                orderIndex: 2,
+                description: 'أسياخ لحم الغنم المفروم بعناية والمغمورة بصلصة الكرز الحامض الحلو الدمشقية، مزينة بالصنوبر المحمص والبقدونس.',
+                image: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=900&q=80'
+            },
+            {
+                id: 'dish-3',
+                name: 'حمص بيروتي بالصنوبر واللحمة',
+                category: 'مقبلات',
+                price: 6.50,
+                badge: 'تقليدي أصيل',
+                featured: false,
+                orderIndex: 3,
+                description: 'حمص ناعم كريمي بالطحينة البلدية وعصير الليمون، مغطى برأس عصفور محمص بالسمن العربي والصنوبر الذهبي.',
+                image: 'https://images.unsplash.com/photo-1577805947697-89e18249d767?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'dish-4',
+                name: 'كبة مقلية شامية مقرمشة',
+                category: 'مقبلات',
+                price: 7.00,
+                badge: 'مقرمش ✨',
+                featured: false,
+                orderIndex: 4,
+                description: '4 أقراص من الكبة الشامية الذهبية المحشوة باللحم المفروم والجوز البلدي ودبس الرمان.',
+                image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'dish-5',
+                name: 'شيش طاووق على الفحم',
+                category: 'مشاوي مشكلة',
+                price: 12.00,
+                badge: '',
+                featured: false,
+                orderIndex: 5,
+                description: 'مكعبات صدور الدجاج المتبلة باللبن والزعتر البري والثوم، مشوية على نار هادئة مع كريم الثوم والبطاطا.',
+                image: 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'dish-6',
+                name: 'منسف لحم بالجميد الكركي',
+                category: 'أطباق شرقية',
+                price: 16.00,
+                badge: 'طبق فاخر',
+                featured: true,
+                orderIndex: 6,
+                description: 'موزات لحم الغنم الطرية مطهوة بلبن الجميد الأصيل، تُقدّم فوق أرز المنسف المزعفر وخبز الشراك واللوز المحمص.',
+                image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=900&q=80'
+            },
+            {
+                id: 'dish-7',
+                name: 'تبولة دمشقية ودبس الرمان',
+                category: 'مقبلات',
+                price: 5.00,
+                badge: 'نباتي 🌿',
+                featured: false,
+                orderIndex: 7,
+                description: 'بقدونس مفروم ناعماً يدوياً مع البرغل الناعم، الطماطم الطازجة، النعناع، زيت الزيتون البكر ودبس الرمان.',
+                image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: 'dish-8',
+                name: 'كنافة نابلسية بالجبن العكاوي',
+                category: 'حلويات ومشروبات',
+                price: 6.00,
+                badge: 'تُقدّم ساخنة 🔥',
+                featured: false,
+                orderIndex: 8,
+                description: 'شعيرات الكنافة الذهبية بالسمن الحيواني محشوة بالجبن العكاوي الممطوط، مسقية بالقطر ومزينة بالفستق الحلبي.',
+                image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80'
+            }
+        ];
+
+        // State Variables
+        let menuItems = [...DEFAULT_MENU_ITEMS];
+        let cart = [];
+        let activeCategory = 'الكل';
+        let searchQuery = '';
+        let orderType = 'table';
+        let whatsappNumber = '963900000000';
+        let currentModalDish = null;
+        let isInitialSeedChecked = false;
+
+        // ==================== INITIALIZATION & REALTIME LISTENERS ====================
+        window.addEventListener('DOMContentLoaded', () => {
+            loadLocalCart();
+            initTheme();
+            renderCategoryTabs();
+            renderMenuGrid(false);
+            updateCartUI();
+            initFirebaseRealtimeSync();
+
+            // Auto-hide Splash Screen after 2.6 seconds
+            setTimeout(() => {
+                window.enterMenuImmediately();
+            }, 2600);
+        });
+
+        async function initFirebaseRealtimeSync() {
+            // 1. Real-time listener on Menu Collection
+            onSnapshot(menuCollectionRef, async (snapshot) => {
+                if (snapshot.empty && !isInitialSeedChecked) {
+                    isInitialSeedChecked = true;
+                    await seedDefaultMenuToFirebase();
+                    return;
+                }
+                isInitialSeedChecked = true;
+
+                const cloudItems = [];
+                snapshot.forEach((docSnap) => {
+                    cloudItems.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                // Sort by orderIndex or creation timestamp
+                cloudItems.sort((a, b) => (a.orderIndex || 999) - (b.orderIndex || 999));
+                menuItems = cloudItems;
+
+                // Update Hero Dish price tag if dish-1 exists
+                const heroDish = menuItems.find(d => d.id === 'dish-1') || menuItems[0];
+                if (heroDish) {
+                    const priceTag = document.getElementById('heroDishPriceTag');
+                    if (priceTag) priceTag.textContent = `${Number(heroDish.price).toFixed(2)} $`;
+                }
+
+                renderMenuGrid(false);
+                // If admin modal is open on edit tab, refresh dropdown
+                if (!document.getElementById('adminDashboardModal').classList.contains('hidden')) {
+                    populateEditDropdown();
+                }
+            }, (error) => {
+                console.error("Firebase Sync Error:", error);
+                showToast("وضع عدم الاتصال: يتم عرض القائمة المحفوظة محلياً", "error");
+            });
+
+            // 2. Real-time listener on Restaurant Settings (WhatsApp Number)
+            onSnapshot(settingsDocRef, (docSnap) => {
+                if (docSnap.exists() && docSnap.data().whatsappNumber) {
+                    whatsappNumber = docSnap.data().whatsappNumber;
+                    const waInput = document.getElementById('adminWhatsappNumber');
+                    if (waInput) waInput.value = whatsappNumber;
+                }
+            });
+        }
+
+        async function seedDefaultMenuToFirebase() {
+            try {
+                const batch = writeBatch(db);
+                DEFAULT_MENU_ITEMS.forEach((item) => {
+                    const docRef = doc(db, "ms_menu_items", item.id);
+                    batch.set(docRef, item);
+                });
+                batch.set(settingsDocRef, { whatsappNumber: '963900000000' });
+                await batch.commit();
+            } catch (e) {
+                console.error("Seed error:", e);
+            }
+        }
+
+        // ==================== GLOBAL EXPOSED FUNCTIONS FOR HTML EVENTS ====================
+        window.enterMenuImmediately = function() {
+            const splash = document.getElementById('splashScreen');
+            if (splash && !splash.classList.contains('opacity-0')) {
+                splash.classList.add('opacity-0', 'pointer-events-none', 'scale-105');
+                setTimeout(() => splash.remove(), 900);
+            }
+        };
+
+        function loadLocalCart() {
+            try {
+                const savedCart = localStorage.getItem('ms_cart_v1');
+                cart = savedCart ? JSON.parse(savedCart) : [];
+            } catch (e) {
+                cart = [];
+            }
+        }
+
+        function saveCartToStorage() {
+            try {
+                localStorage.setItem('ms_cart_v1', JSON.stringify(cart));
+            } catch (e) {}
+        }
+
+        // ==================== THEME TOGGLE ====================
+        function initTheme() {
+            const savedTheme = localStorage.getItem('ms_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        }
+
+        window.toggleTheme = function() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            localStorage.setItem('ms_theme', html.classList.contains('dark') ? 'dark' : 'light');
+        };
+
+        // ==================== CATEGORIES & SMOOTH BENTO RENDERING ====================
+        function renderCategoryTabs() {
+            const categories = ['الكل', 'مشاوي مشكلة', 'أطباق شرقية', 'مقبلات', 'حلويات ومشروبات'];
+            const container = document.getElementById('categoryTabs');
+            container.innerHTML = categories.map(cat => {
+                const isActive = cat === activeCategory;
+                return `
+                    <button onclick="selectCategory('${cat}')" 
+                        class="px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all duration-300 border-2 ${
+                            isActive 
+                            ? 'bg-charcoal-900 dark:bg-gold-500 text-sand-50 dark:text-charcoal-950 border-charcoal-900 dark:border-gold-500 shadow-md scale-[1.03]' 
+                            : 'bg-white dark:bg-charcoal-800 text-charcoal-800 dark:text-sand-200 border-charcoal-900/10 dark:border-sand-100/10 hover:border-gold-500/50 hover:scale-[1.01]'
+                        }">
+                        ${cat}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        window.selectCategory = function(cat) {
+            if (cat === activeCategory) return;
+            activeCategory = cat;
+            renderCategoryTabs();
+            renderMenuGrid(true);
+        };
+
+        window.handleSearch = function(val) {
+            searchQuery = val.trim().toLowerCase();
+            renderMenuGrid(false);
+        };
+
+        window.resetFilters = function() {
+            activeCategory = 'الكل';
+            searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            renderCategoryTabs();
+            renderMenuGrid(true);
+        };
+
+        function renderMenuGrid(withTransition = true) {
+            const grid = document.getElementById('menuBentoGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            const performRender = () => {
+                const filtered = menuItems.filter(item => {
+                    const matchesCat = activeCategory === 'الكل' || item.category === activeCategory;
+                    const matchesSearch = !searchQuery || 
+                        item.name.toLowerCase().includes(searchQuery) || 
+                        item.description.toLowerCase().includes(searchQuery);
+                    return matchesCat && matchesSearch;
+                });
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                    grid.classList.remove('grid-switching');
+                    return;
+                }
+                emptyState.classList.add('hidden');
+
+                grid.innerHTML = filtered.map((dish, idx) => {
+                    const isWide = dish.featured && filtered.length > 2;
+                    const spanClass = isWide ? 'sm:col-span-2 lg:col-span-2' : 'col-span-1';
+                    const imgHeight = isWide ? 'h-56 sm:h-64' : 'h-48';
+                    const staggerDelay = Math.min(idx * 55, 350);
+
+                    return `
+                    <article style="animation-delay: ${staggerDelay}ms;" class="bento-card ${spanClass} group rounded-3xl bg-white dark:bg-charcoal-900 border-2 border-charcoal-900/10 dark:border-sand-100/10 hover:border-gold-500/60 overflow-hidden shadow-sm hover:shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="relative ${imgHeight} overflow-hidden bg-charcoal-800 cursor-pointer" onclick="openDishModal('${dish.id}')">
+                                <img src="${dish.image}" 
+                                     onerror="this.src='https://placehold.co/800x500/1E1B18/D49A35?text=${encodeURIComponent(dish.name)}'"
+                                     alt="${dish.name}" 
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950/75 via-transparent to-transparent"></div>
+                                
+                                <div class="absolute top-3 right-3 left-3 flex items-center justify-between gap-2">
+                                    <span class="px-3 py-1 rounded-full bg-charcoal-950/75 backdrop-blur-md text-sand-50 text-[11px] font-bold">
+                                        ${dish.category}
+                                    </span>
+                                    ${dish.badge ? `
+                                        <span class="px-3 py-1 rounded-full bg-gold-500 text-charcoal-950 text-[11px] font-black shadow-md">
+                                            ${dish.badge}
+                                        </span>
+                                    ` : ''}
+                                </div>
+
+                                <div class="absolute bottom-3 right-3">
+                                    <span class="px-3.5 py-1.5 rounded-2xl bg-sand-50/95 dark:bg-charcoal-950/90 backdrop-blur-md text-charcoal-950 dark:text-gold-400 font-black text-base shadow-lg">
+                                        ${Number(dish.price).toFixed(2)} $
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="p-5 pb-3">
+                                <h3 onclick="openDishModal('${dish.id}')" class="font-extrabold text-lg sm:text-xl mb-1.5 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition cursor-pointer">
+                                    ${dish.name}
+                                </h3>
+                                <p class="text-xs sm:text-sm text-charcoal-800/70 dark:text-sand-200/70 leading-relaxed line-clamp-2">
+                                    ${dish.description}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="px-5 pb-5 pt-2 flex items-center gap-2">
+                            <button onclick="addToCart('${dish.id}')" class="flex-1 py-3 px-4 rounded-2xl bg-charcoal-900 dark:bg-gold-500 hover:bg-gold-500 dark:hover:bg-gold-400 text-sand-50 dark:text-charcoal-950 hover:text-charcoal-950 font-extrabold text-xs sm:text-sm transition flex items-center justify-center gap-2 active:scale-95">
+                                <span>+ أضف للسلة</span>
+                            </button>
+                            <button onclick="openDishModal('${dish.id}')" title="تخصيص وإضافة ملاحظات" class="p-3 rounded-2xl bg-sand-100 dark:bg-charcoal-800 hover:bg-gold-500/20 border border-charcoal-900/10 dark:border-sand-100/10 text-charcoal-800 dark:text-sand-200 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </article>
+                    `;
+                }).join('');
+
+                requestAnimationFrame(() => {
+                    grid.classList.remove('grid-switching');
+                });
+            };
+
+            if (withTransition) {
+                grid.classList.add('grid-switching');
+                setTimeout(performRender, 190);
+            } else {
+                performRender();
+            }
+        }
+
+        // ==================== DISH CUSTOMIZATION MODAL ====================
+        window.openDishModal = function(dishId) {
+            const dish = menuItems.find(d => d.id === dishId);
+            if (!dish) return;
+            currentModalDish = dish;
+
+            document.getElementById('modalDishImg').src = dish.image;
+            document.getElementById('modalDishCategory').textContent = dish.category;
+            document.getElementById('modalDishName').textContent = dish.name;
+            document.getElementById('modalDishPrice').textContent = `${Number(dish.price).toFixed(2)} $`;
+            document.getElementById('modalDishDesc').textContent = dish.description;
+            document.getElementById('customDishNoteInput').value = '';
+
+            document.querySelectorAll('.note-chip').forEach(chip => {
+                chip.classList.remove('bg-gold-500', 'text-charcoal-950', 'border-gold-500');
+            });
+
+            document.getElementById('confirmAddModalBtn').onclick = () => {
+                const selectedChips = Array.from(document.querySelectorAll('.note-chip.bg-gold-500')).map(c => c.dataset.note);
+                const typedNote = document.getElementById('customDishNoteInput').value.trim();
+                const fullNote = [...selectedChips, typedNote].filter(Boolean).join('، ');
+                window.addToCart(dish.id, fullNote);
+                window.closeDishModal();
+            };
+
+            const modal = document.getElementById('dishDetailModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.toggleQuickNote = function(btn, noteText) {
+            btn.dataset.note = noteText;
+            btn.classList.toggle('bg-gold-500');
+            btn.classList.toggle('text-charcoal-950');
+            btn.classList.toggle('border-gold-500');
+        };
+
+        window.closeDishModal = function() {
+            const modal = document.getElementById('dishDetailModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        // ==================== SHOPPING CART (WITH INDIVIDUAL DELETE) ====================
+        window.quickAddHeroDish = function() {
+            if (menuItems.length > 0) {
+                window.addToCart(menuItems[0].id);
+            }
+        };
+
+        window.addToCart = function(dishId, note = '') {
+            const dish = menuItems.find(d => d.id === dishId);
+            if (!dish) return;
+
+            const existingIndex = cart.findIndex(item => item.dishId === dishId && item.note === note);
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                    dishId: dish.id,
+                    name: dish.name,
+                    price: Number(dish.price),
+                    image: dish.image,
+                    qty: 1,
+                    note: note
+                });
+            }
+
+            saveCartToStorage();
+            updateCartUI();
+            showToast(`تمت إضافة "${dish.name}" إلى السلة ✅`);
+        };
+
+        window.updateItemQty = function(cartItemId, delta) {
+            const index = cart.findIndex(i => i.cartItemId === cartItemId);
+            if (index === -1) return;
+
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            saveCartToStorage();
+            updateCartUI();
+        };
+
+        window.removeSingleCartItem = function(cartItemId) {
+            const itemToRemove = cart.find(i => i.cartItemId === cartItemId);
+            cart = cart.filter(i => i.cartItemId !== cartItemId);
+            saveCartToStorage();
+            updateCartUI();
+            if (itemToRemove) {
+                showToast(`تم حذف "${itemToRemove.name}" من السلة 🗑️`);
+            }
+        };
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            document.getElementById('cartBadge').textContent = totalItems;
+            document.getElementById('mobileCartCount').textContent = totalItems;
+            document.getElementById('mobileCartTotal').textContent = `${totalPrice.toFixed(2)} $`;
+            document.getElementById('cartTotalPrice').textContent = `${totalPrice.toFixed(2)} $`;
+
+            const mobileBar = document.getElementById('floatingCartBar');
+            if (totalItems > 0) {
+                mobileBar.classList.remove('translate-y-28');
+            } else {
+                mobileBar.classList.add('translate-y-28');
+            }
+
+            const container = document.getElementById('cartItemsContainer');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <div class="w-20 h-20 rounded-3xl bg-sand-100 dark:bg-charcoal-800 flex items-center justify-center text-4xl mb-4">🧺</div>
+                        <h4 class="font-extrabold text-base">سلتك فارغة حالياً</h4>
+                        <p class="text-xs text-charcoal-800/60 dark:text-sand-200/60 mt-1 max-w-xs">تصفح أطباقنا الشرقية الشهية وأضف ما تشتهيه إلى سلتك</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="p-3.5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal-900/10 dark:border-sand-100/10 flex items-center gap-3 shadow-sm">
+                    <img src="${item.image}" onerror="this.src='https://placehold.co/100x100/1E1B18/D49A35?text=M%26S'" alt="${item.name}" class="w-16 h-16 rounded-xl object-cover shrink-0">
+                    
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-extrabold text-sm truncate">${item.name}</h4>
+                        ${item.note ? `<p class="text-[11px] text-gold-600 dark:text-gold-400 truncate mt-0.5">📝 ${item.note}</p>` : ''}
+                        <p class="text-xs font-black text-charcoal-800/70 dark:text-sand-200/70 mt-1">${(item.price * item.qty).toFixed(2)} $</p>
+                        
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="updateItemQty('${item.cartItemId}', -1)" class="w-7 h-7 rounded-lg bg-sand-100 dark:bg-charcoal-900 hover:bg-gold-500/20 font-black text-sm flex items-center justify-center transition">-</button>
+                            <span class="text-xs font-black w-5 text-center">${item.qty}</span>
+                            <button onclick="updateItemQty('${item.cartItemId}', 1)" class="w-7 h-7 rounded-lg bg-sand-100 dark:bg-charcoal-900 hover:bg-gold-500/20 font-black text-sm flex items-center justify-center transition">+</button>
+                        </div>
+                    </div>
+
+                    <button onclick="removeSingleCartItem('${item.cartItemId}')" title="حذف هذا الصنف فقط" class="p-2.5 rounded-xl bg-red-500/10 hover:bg-red-500 text-red-600 hover:text-white transition shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        window.toggleCartDrawer = function(open) {
+            const overlay = document.getElementById('cartOverlay');
+            const drawer = document.getElementById('cartDrawer');
+            if (open) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    drawer.classList.remove('-translate-x-full');
+                }, 10);
+            } else {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('-translate-x-full');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        };
+
+        window.setOrderType = function(type) {
+            orderType = type;
+            const tableBtn = document.getElementById('orderTypeTableBtn');
+            const delivBtn = document.getElementById('orderTypeDeliveryBtn');
+            const input = document.getElementById('tableOrAddressInput');
+
+            if (type === 'table') {
+                tableBtn.className = 'py-2 rounded-xl text-xs font-extrabold bg-white dark:bg-charcoal-900 shadow-sm transition';
+                delivBtn.className = 'py-2 rounded-xl text-xs font-extrabold text-charcoal-800/60 dark:text-sand-200/60 transition';
+                input.placeholder = 'رقم الطاولة (مثلاً: 5)';
+            } else {
+                delivBtn.className = 'py-2 rounded-xl text-xs font-extrabold bg-white dark:bg-charcoal-900 shadow-sm transition';
+                tableBtn.className = 'py-2 rounded-xl text-xs font-extrabold text-charcoal-800/60 dark:text-sand-200/60 transition';
+                input.placeholder = 'عنوان التوصيل بالتفصيل';
+            }
+        };
+
+        // ==================== WHATSAPP ORDER SUBMISSION ====================
+        window.sendOrderToWhatsApp = function() {
+            if (cart.length === 0) {
+                showToast('السلة فارغة! أضف بعض الأطباق أولاً 🍽️', 'error');
+                return;
+            }
+
+            const customerName = document.getElementById('customerNameInput').value.trim() || 'زبون كريم';
+            const locationVal = document.getElementById('tableOrAddressInput').value.trim() || 'غير محدد';
+            const typeLabel = orderType === 'table' ? 'داخل المطعم (طاولة)' : 'توصيل / سفري';
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            let message = `✨ *طلب جديد - مطعم M&S للمأكولات الشرقية* ✨\n`;
+            message += `━━━━━━━━━━━━━━\n`;
+            message += `👤 *الاسم:* ${customerName}\n`;
+            message += `📍 *نوع الطلب:* ${typeLabel} (${locationVal})\n`;
+            message += `━━━━━━━━━━━━━━\n`;
+            message += `📋 *تفاصيل الطلب:*\n\n`;
+
+            cart.forEach((item, index) => {
+                message += `${index + 1}. *${item.name}* × ${item.qty} = *${(item.price * item.qty).toFixed(2)} $*\n`;
+                if (item.note) {
+                    message += `   └ _ملاحظة: ${item.note}_\n`;
+                }
+            });
+
+            message += `\n━━━━━━━━━━━━━━\n`;
+            message += `💰 *المجموع الإجمالي: ${totalPrice.toFixed(2)} $*\n`;
+            message += `شكراً لاختياركم مطعم M&S 🤍`;
+
+            const cleanPhone = whatsappNumber.replace(/[^0-9]/g, '') || '963900000000';
+            const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+        };
+
+        // ==================== ADMIN LOCK & CLOUD DASHBOARD (PIN: 1234) ====================
+        window.openAdminLockModal = function() {
+            const modal = document.getElementById('adminLockModal');
+            document.getElementById('adminPinInput').value = '';
+            document.getElementById('pinErrorMsg').classList.add('hidden');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => document.getElementById('adminPinInput').focus(), 100);
+        };
+
+        window.closeAdminLockModal = function() {
+            const modal = document.getElementById('adminLockModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        window.verifyAdminPin = function(e) {
+            e.preventDefault();
+            const pin = document.getElementById('adminPinInput').value.trim();
+            if (pin === '1234') {
+                window.closeAdminLockModal();
+                window.openAdminDashboard();
+            } else {
+                const err = document.getElementById('pinErrorMsg');
+                err.classList.remove('hidden');
+                document.getElementById('adminPinInput').value = '';
+                document.getElementById('adminPinInput').focus();
+            }
+        };
+
+        window.openAdminDashboard = function() {
+            const modal = document.getElementById('adminDashboardModal');
+            document.getElementById('adminWhatsappNumber').value = whatsappNumber;
+            populateEditDropdown();
+            window.switchAdminTab('add');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.closeAdminDashboard = function() {
+            const modal = document.getElementById('adminDashboardModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
+        window.switchAdminTab = function(tab) {
+            const addBtn = document.getElementById('tabAddProductBtn');
+            const editBtn = document.getElementById('tabEditProductBtn');
+            const addSec = document.getElementById('addProductSection');
+            const editSec = document.getElementById('editProductSection');
+
+            if (tab === 'add') {
+                addBtn.className = 'flex-1 py-3 px-4 rounded-2xl font-extrabold text-sm bg-gold-500 text-charcoal-950 shadow-md transition';
+                editBtn.className = 'flex-1 py-3 px-4 rounded-2xl font-extrabold text-sm bg-white dark:bg-charcoal-800 text-charcoal-800 dark:text-sand-200 transition';
+                addSec.classList.remove('hidden');
+                editSec.classList.add('hidden');
+            } else {
+                editBtn.className = 'flex-1 py-3 px-4 rounded-2xl font-extrabold text-sm bg-gold-500 text-charcoal-950 shadow-md transition';
+                addBtn.className = 'flex-1 py-3 px-4 rounded-2xl font-extrabold text-sm bg-white dark:bg-charcoal-800 text-charcoal-800 dark:text-sand-200 transition';
+                editSec.classList.remove('hidden');
+                addSec.classList.add('hidden');
+                populateEditDropdown();
+            }
+        };
+
+        // Compress uploaded images slightly so they fit comfortably in Firestore documents (< 1MB)
+        window.handleImageUpload = function(event, targetInputId, previewImgId = null) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 700;
+                    const scale = Math.min(1, MAX_WIDTH / img.width);
+                    canvas.width = img.width * scale;
+                    canvas.height = img.height * scale;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+
+                    document.getElementById(targetInputId).value = compressedDataUrl;
+                    if (previewImgId) {
+                        document.getElementById(previewImgId).src = compressedDataUrl;
+                    }
+                    showToast('تم تجهيز الصورة بنجاح 📸');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // SECTION 1: ADD NEW PRODUCT TO FIREBASE FIRESTORE
+        window.handleAddNewDish = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('saveNewDishBtn');
+            btn.disabled = true;
+            btn.textContent = 'جاري النشر...';
+
+            try {
+                const name = document.getElementById('newDishName').value.trim();
+                const category = document.getElementById('newDishCategory').value;
+                const price = parseFloat(document.getElementById('newDishPrice').value);
+                const badge = document.getElementById('newDishBadge').value;
+                const image = document.getElementById('newDishImageUrl').value.trim() || 
+                              `https://placehold.co/800x500/1E1B18/D49A35?text=${encodeURIComponent(name)}`;
+                const description = document.getElementById('newDishDesc').value.trim();
+                const featured = document.getElementById('newDishFeatured').checked;
+
+                const newId = 'dish-' + Date.now();
+                const newDish = {
+                    id: newId,
+                    name,
+                    category,
+                    price,
+                    badge,
+                    image,
+                    description,
+                    featured,
+                    orderIndex: 0
+                };
+
+                await setDoc(doc(db, "ms_menu_items", newId), newDish);
+                e.target.reset();
+                showToast(`تم نشر "${name}" للجميع بنجاح! 🎉`);
+            } catch (err) {
+                console.error(err);
+                showToast('حدث خطأ أثناء الحفظ في قاعدة البيانات! تأكد من إعدادات Firestore', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'نشر وإضافة للقائمة';
+            }
+        };
+
+        // SECTION 2: EDIT EXISTING PRODUCT IN FIREBASE FIRESTORE
+        function populateEditDropdown() {
+            const select = document.getElementById('editDishSelect');
+            const currentVal = select.value;
+            if (menuItems.length === 0) {
+                select.innerHTML = '<option value="">لا توجد أطباق حالياً</option>';
+                return;
+            }
+            select.innerHTML = menuItems.map(item => 
+                `<option value="${item.id}">${item.name} (${Number(item.price).toFixed(2)} $)</option>`
+            ).join('');
+
+            if (currentVal && menuItems.some(d => d.id === currentVal)) {
+                select.value = currentVal;
+                window.populateEditForm(currentVal);
+            } else {
+                window.populateEditForm(menuItems[0].id);
+            }
+        }
+
+        window.populateEditForm = function(dishId) {
+            const dish = menuItems.find(d => d.id === dishId);
+            if (!dish) return;
+            document.getElementById('editDishName').value = dish.name;
+            document.getElementById('editDishPrice').value = dish.price;
+            document.getElementById('editDishImageUrl').value = dish.image;
+            document.getElementById('editDishPreviewImg').src = dish.image;
+            document.getElementById('editDishDesc').value = dish.description;
+        };
+
+        window.handleUpdateExistingDish = async function(e) {
+            e.preventDefault();
+            const dishId = document.getElementById('editDishSelect').value;
+            if (!dishId) return;
+
+            const btn = document.getElementById('saveEditDishBtn');
+            btn.disabled = true;
+            btn.textContent = 'جاري التحديث...';
+
+            try {
+                await updateDoc(doc(db, "ms_menu_items", dishId), {
+                    name: document.getElementById('editDishName').value.trim(),
+                    price: parseFloat(document.getElementById('editDishPrice').value),
+                    image: document.getElementById('editDishImageUrl').value.trim(),
+                    description: document.getElementById('editDishDesc').value.trim()
+                });
+
+                const newWa = document.getElementById('adminWhatsappNumber').value.trim();
+                if (newWa) {
+                    await setDoc(settingsDocRef, { whatsappNumber: newWa }, { merge: true });
+                }
+
+                showToast('تم حفظ التعديلات وتحديث القائمة عند الجميع ✨');
+            } catch (err) {
+                console.error(err);
+                showToast('حدث خطأ أثناء التحديث! تأكد من صلاحيات Firestore', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'حفظ وتحديث للجميع';
+            }
+        };
+
+        window.deleteSelectedDish = async function() {
+            const dishId = document.getElementById('editDishSelect').value;
+            const dish = menuItems.find(d => d.id === dishId);
+            if (!dish) return;
+
+            try {
+                await deleteDoc(doc(db, "ms_menu_items", dishId));
+                showToast(`تم حذف "${dish.name}" من القائمة للجميع 🗑️`);
+            } catch (err) {
+                console.error(err);
+                showToast('تعذر حذف الطبق', 'error');
+            }
+        };
+
+        window.resetDemoMenu = async function() {
+            try {
+                const snapshot = await getDocs(menuCollectionRef);
+                const batch = writeBatch(db);
+                snapshot.forEach((d) => batch.delete(d.ref));
+                DEFAULT_MENU_ITEMS.forEach((item) => {
+                    batch.set(doc(db, "ms_menu_items", item.id), item);
+                });
+                await batch.commit();
+                showToast('تمت استعادة القائمة الافتراضية على السحابة 🔄');
+            } catch (err) {
+                console.error(err);
+                showToast('حدث خطأ أثناء الاستعادة', 'error');
+            }
+        };
+
+        // ==================== TOAST HELPER ====================
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const bgClass = type === 'error' 
+                ? 'bg-red-600 text-white' 
+                : 'bg-charcoal-900 dark:bg-sand-50 text-sand-50 dark:text-charcoal-950 border border-gold-500/40';
+            
+            toast.className = `${bgClass} px-4 py-3 rounded-2xl shadow-xl text-xs sm:text-sm font-extrabold text-center transform transition-all duration-300 translate-y-[-10px] opacity-0`;
+            toast.textContent = msg;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-[-10px]', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                setTimeout(() => toast.remove(), 300);
+            }, 2600);
+        }
+    </script>
+</body>
+</html>
